@@ -31,8 +31,12 @@ public class UI {
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
 	public static void clearScreen() {
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
+		try {
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	public static ChessPosition readChessposition(Scanner sc) {
@@ -45,6 +49,7 @@ public class UI {
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Error reading chess position. Valued values are from a1 to h8");
 		}
+
 	}
 
 	public static void printBoard(ChessPiece[][] pieces) {
