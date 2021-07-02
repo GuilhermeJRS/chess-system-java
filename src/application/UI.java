@@ -33,8 +33,7 @@ public class UI {
 	public static void clearScreen() {
 		try {
 			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
@@ -56,14 +55,30 @@ public class UI {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pieces[0].length; j++) {
-				printPiece(pieces[i][j]);
+				printPiece(pieces[i][j], false);
 			}
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
 	}
 
-	private static void printPiece(ChessPiece piece) {
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoveis) {
+		for (int i = 0; i < pieces.length; i++) {
+			System.out.print((8 - i) + " ");
+			for (int j = 0; j < pieces[0].length; j++) {
+//				System.out.print("-i="+i+" j="+j+" => "+possibleMoveis[i][j]);
+				printPiece(pieces[i][j], possibleMoveis[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("  a b c d e f g h");
+	}
+
+	private static void printPiece(ChessPiece piece, boolean background) {
+		if (background) {
+			System.out.print(ANSI_BLUE_BACKGROUND);
+		}
+		
 		if (piece == null) {
 			System.out.print("-");
 		} else {
@@ -73,6 +88,7 @@ public class UI {
 				System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
 			}
 		}
+		System.out.print(ANSI_BLACK_BACKGROUND);
 		System.out.print(" ");
 	}
 }
